@@ -8,12 +8,24 @@ public class Builder {
     private Tile currentTile;
     private List<Block> inventory;
 
+    /***
+     * Initialise the Builder with name and starting tile
+     * @param name
+     * @param startingTile
+     */
     public Builder(String name, Tile startingTile) {
         this.name = new String(name);
         this.currentTile = startingTile;
 
     }
 
+    /***
+     * Initialise the Builder with name, starting tile and inventory
+     * @param name
+     * @param startingTile
+     * @param startingInventory
+     * @throws InvalidBlockException
+     */
     public Builder(String name, Tile startingTile,
                    List<Block> startingInventory) throws InvalidBlockException {
         this.name = name;
@@ -30,6 +42,10 @@ public class Builder {
 
     }
 
+    /***
+     * Get the name of the Builder
+     * @return
+     */
     public String getName() {
         return this.name;
     }
@@ -80,21 +96,14 @@ public class Builder {
 
     public boolean canEnter(Tile newTile) {
         //TODO Implement Tile canEnter() function
-        /*
-        Check if the Builder can enter a tile from the current tile.
-    Returns true if:
-    the tiles are connected via an exit (i.e. there is an exit from the current tile to the new tile), and
-    the height of the new tile (number of blocks) is the same or different by 1 from the current tile (i.e. abs(current tile height - new tile) <= 1)
-    If newTile is null return false.
-         */
 
         if (newTile == null) {
             return false;
         }
-
         Map<String, Tile> exits = this.currentTile.getExits();
         Iterator iterator = exits.entrySet().iterator();
         boolean isEntryInExits = false;
+
         while(iterator.hasNext()){
             //TODO: Ask tutor about the use of the equals below
             Map.Entry entry = (Map.Entry)iterator.next();
@@ -107,15 +116,36 @@ public class Builder {
         }
 
         if(isEntryInExits){
-            //The entry exists in the exits map so can enter
-            return true;
+            //The entry is in the exits map so can enter if height is good
+            if(Math.abs(currentTile.getBlocks().size()-
+                    newTile.getBlocks().size())<=1){
+                //The tile is the correct height
+                return true;
+
+            }else{
+                //Valid tile but height is no good
+                return false;
+            }
+
         }else {
+            //Tile is not in exits map
             return false;
         }
     }
 
     public void moveTo(Tile newTile) throws NoExitException {
         //TODO Implement Tile moveTo() function
+        /*
+         move the builder to a new tile.
+         If canEnter(newTile) == true then change the builders current tile
+         to be newTile. (i.e. getCurrentTile() == newTile)
+         If canEnter(newTile) == false then throw a NoExitException.
+         */
+
+        if(canEnter(newTile)) {
+
+
+        }
 
     }
 
