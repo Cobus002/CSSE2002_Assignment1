@@ -1,4 +1,6 @@
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TooManyListenersException;
 
 public class Builder {
@@ -65,26 +67,55 @@ public class Builder {
 
     public void digOnCurrentTile() throws TooLowException,
             InvalidBlockException {
-        /**
-         Attempt to dig in the current tile and add tile to the inventory
-         If the top block (given by getCurrentTile().getTopBlock()) is diggable,
-         remove the top block of the tile and destroy it, or add it to the end of the inventory (given by getInventory()).
-         Handle the following cases:
-         If there are no blocks on the current tile, throw a TooLowException
-         If the top block is not diggable, throw a InvalidBlockException
-         If the top block is not carryable, remove the block, but do not add it to the inventory.
-         Hint: call Tile.dig()***/
-
-
+        //The dig function already throws the exceptions when too low
+        //or if the block is non diggable.
+        Block topBlock = currentTile.dig();
+        //Check if the block is carryable and then if yes add to inventory
+        if (topBlock.isCarryable()) {
+            this.inventory.add(topBlock);
+        } else{
+            //don't add it to the inventory
+        }
     }
 
     public boolean canEnter(Tile newTile) {
-        /****Still to implement***/
-        return false;
+        //TODO Implement Tile canEnter() function
+        /*
+        Check if the Builder can enter a tile from the current tile.
+    Returns true if:
+    the tiles are connected via an exit (i.e. there is an exit from the current tile to the new tile), and
+    the height of the new tile (number of blocks) is the same or different by 1 from the current tile (i.e. abs(current tile height - new tile) <= 1)
+    If newTile is null return false.
+         */
+
+        if (newTile == null) {
+            return false;
+        }
+
+        Map<String, Tile> exits = this.currentTile.getExits();
+        Iterator iterator = exits.entrySet().iterator();
+        boolean isEntryInExits = false;
+        while(iterator.hasNext()){
+            //TODO: Ask tutor about the use of the equals below
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String name = (String) entry.getKey();
+            Tile tile = (Tile) entry.getValue();
+            if(newTile.equals(tile)){
+                isEntryInExits = true;
+                break;
+            }
+        }
+
+        if(isEntryInExits){
+            //The entry exists in the exits map so can enter
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public void moveTo(Tile newTile) throws NoExitException {
-        /****Still to implement***/
+        //TODO Implement Tile moveTo() function
 
     }
 

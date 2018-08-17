@@ -48,6 +48,7 @@ public class Tile implements Serializable {
     }
 
     public Map<String, Tile> getExits(){
+        //TODO Check getExits() implementation
         //Possible wrong implementation
         return this.exits;
     }
@@ -111,11 +112,13 @@ public class Tile implements Serializable {
         }
     }
 
-    public void moveBlock(String exitName) throws TooHighException, InvalidBlockException, NoExitException{
+    public void moveBlock(String exitName) throws TooHighException,
+            InvalidBlockException, NoExitException{
         if(!(exitName == null || !this.getExits().containsKey(exitName))){
             //Name null or keyDoesn't exist
             throw new NoExitException();
-        }else if(this.getBlocks().size()<=this.exits.get(exitName).getBlocks().size()){
+        }else if(this.getBlocks().size()
+                <=this.exits.get(exitName).getBlocks().size()){
             //Current tile has less tiles than the exit tile
             throw new TooHighException();
         }else if(!this.getTopBlock().isMoveable()){
@@ -134,7 +137,8 @@ public class Tile implements Serializable {
         }
     }
 
-    public void placeBlock(Block block) throws TooHighException, InvalidBlockException{
+    public void placeBlock(Block block) throws TooHighException,
+            InvalidBlockException{
         int blockHeight = this.getBlocks().size();
         if (block == null){
             throw new InvalidBlockException();
