@@ -95,8 +95,6 @@ public class Builder {
     }
 
     public boolean canEnter(Tile newTile) {
-        //TODO Implement Tile canEnter() function
-
         if (newTile == null) {
             return false;
         }
@@ -105,7 +103,7 @@ public class Builder {
         boolean isEntryInExits = false;
 
         while(iterator.hasNext()){
-            //TODO: Ask tutor about the use of the equals below
+            //Ask tutor about the use of the equals below
             Map.Entry entry = (Map.Entry)iterator.next();
             String name = (String) entry.getKey();
             Tile tile = (Tile) entry.getValue();
@@ -134,7 +132,6 @@ public class Builder {
     }
 
     public void moveTo(Tile newTile) throws NoExitException {
-        //TODO Implement Tile moveTo() function
         /*
          move the builder to a new tile.
          If canEnter(newTile) == true then change the builders current tile
@@ -142,9 +139,11 @@ public class Builder {
          If canEnter(newTile) == false then throw a NoExitException.
          */
 
-        if(canEnter(newTile)) {
-
-
+        if(!this.canEnter(newTile)) {
+            //Can't eneter the new tile
+            throw new NoExitException();
+        }else{
+            this.currentTile = newTile;
         }
 
     }

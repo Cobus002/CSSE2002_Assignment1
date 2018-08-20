@@ -48,7 +48,6 @@ public class Tile implements Serializable {
     }
 
     public Map<String, Tile> getExits(){
-        //TODO Check getExits() implementation
         //Possible wrong implementation
         return this.exits;
     }
