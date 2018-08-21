@@ -7,14 +7,15 @@ public class TileTest {
 
     @Test
     public void getExits() {
+
         Block grass1 = new GrassBlock();
         Tile exitTile = new Tile();
         try {
             exitTile.placeBlock(grass1);
             testTile.addExit("NorthExit", exitTile);
-        }catch(TooHighException | InvalidBlockException e){
+        } catch (TooHighException | InvalidBlockException e) {
             System.out.println("Error occurred when adding block too tile");
-        }catch(NoExitException e){
+        } catch (NoExitException e) {
             System.out.println("Error occurred when adding exit");
         }
 
