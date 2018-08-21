@@ -38,26 +38,39 @@ public class Builder {
         }
         //Blocks are all good
         this.inventory = startingInventory;
-
-
     }
 
     /***
-     * Get the name of the Builder
+     * Get the name of the current builder instance
      * @return
      */
     public String getName() {
         return this.name;
     }
 
+    /***
+     * Get the tile on which the builder is currently on.
+     * @return
+     */
     public Tile getCurrentTile() {
         return this.currentTile;
     }
 
+    /***
+     * Get a list of the blocks currently in the builder inventory
+     * @return
+     */
     public List<Block> getInventory() {
         return this.inventory;
     }
 
+    /***
+     * Drop the inventory item given at index on the current tile.
+     * Only possible if some conditions are met.
+     * @param inventoryIndex
+     * @throws InvalidBlockException
+     * @throws TooHighException
+     */
     public void dropFromInventory(int inventoryIndex)
             throws InvalidBlockException, TooHighException {
 
@@ -77,8 +90,6 @@ public class Builder {
         }
 
         this.currentTile.placeBlock(dropBlock);
-
-
     }
 
     public void digOnCurrentTile() throws TooLowException,
@@ -89,11 +100,16 @@ public class Builder {
         //Check if the block is carryable and then if yes add to inventory
         if (topBlock.isCarryable()) {
             this.inventory.add(topBlock);
-        } else{
+        } else {
             //don't add it to the inventory
         }
     }
 
+    /***
+     * Check if it is possible to enter the tile given by newTile
+     * @param newTile
+     * @return
+     */
     public boolean canEnter(Tile newTile) {
         if (newTile == null) {
             return false;
@@ -102,47 +118,45 @@ public class Builder {
         Iterator iterator = exits.entrySet().iterator();
         boolean isEntryInExits = false;
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             //Ask tutor about the use of the equals below
-            Map.Entry entry = (Map.Entry)iterator.next();
+            Map.Entry entry = (Map.Entry) iterator.next();
             String name = (String) entry.getKey();
             Tile tile = (Tile) entry.getValue();
-            if(newTile.equals(tile)){
+            if (newTile.equals(tile)) {
                 isEntryInExits = true;
                 break;
             }
         }
-
-        if(isEntryInExits){
+        //Check if the entry is in the current tile entries map
+        if (isEntryInExits) {
             //The entry is in the exits map so can enter if height is good
-            if(Math.abs(currentTile.getBlocks().size()-
-                    newTile.getBlocks().size())<=1){
+            if (Math.abs(currentTile.getBlocks().size() -
+                    newTile.getBlocks().size()) <= 1) {
                 //The tile is the correct height
                 return true;
 
-            }else{
+            } else {
                 //Valid tile but height is no good
                 return false;
             }
 
-        }else {
+        } else {
             //Tile is not in exits map
             return false;
         }
     }
 
+    /***
+     * Move the builder to the new tile if tile is valid
+     * @param newTile
+     * @throws NoExitException
+     */
     public void moveTo(Tile newTile) throws NoExitException {
-        /*
-         move the builder to a new tile.
-         If canEnter(newTile) == true then change the builders current tile
-         to be newTile. (i.e. getCurrentTile() == newTile)
-         If canEnter(newTile) == false then throw a NoExitException.
-         */
-
-        if(!this.canEnter(newTile)) {
+        if (!this.canEnter(newTile)) {
             //Can't eneter the new tile
             throw new NoExitException();
-        }else{
+        } else {
             this.currentTile = newTile;
         }
 

@@ -15,7 +15,7 @@ public class BuilderTest {
 
     @Test
     public void getCurrentTile() {
-        
+
     }
 
     @Test
