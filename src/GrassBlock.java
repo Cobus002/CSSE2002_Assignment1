@@ -1,9 +1,9 @@
+
 public class GrassBlock extends GroundBlock {
     private String type, colour;
     private boolean carryable;
 
-    public GrassBlock(){
-        System.out.println("GrassBlock init");
+    public GrassBlock() {
         type = new String("grass");
         colour = new String("green");
         carryable = false;
