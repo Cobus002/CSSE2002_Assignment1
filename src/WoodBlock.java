@@ -2,7 +2,7 @@ public class WoodBlock implements Block {
     private String type, colour;
     private boolean carryable, diggable, moveable;
 
-    public WoodBlock(){
+    public WoodBlock() {
         this.type = new String("wood");
         this.colour = new String("brown");
         this.carryable = true;

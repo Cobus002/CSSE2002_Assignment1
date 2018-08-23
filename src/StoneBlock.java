@@ -2,11 +2,11 @@ public class StoneBlock implements Block {
     private String type, colour;
     boolean carryable, diggable, moveable;
 
-    public StoneBlock(){
+    public StoneBlock() {
         type = new String("stone");
         colour = new String("gray");
         carryable = false;
-        diggable =  false;
+        diggable = false;
         moveable = false;
 
     }

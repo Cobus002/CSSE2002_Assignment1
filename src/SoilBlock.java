@@ -2,7 +2,7 @@ public class SoilBlock extends GroundBlock {
     private String type, colour;
     private boolean carryable;
 
-    public SoilBlock(){
+    public SoilBlock() {
         type = new String("soil");
         colour = new String("black");
         carryable = true;

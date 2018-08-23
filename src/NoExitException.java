@@ -1,6 +1,6 @@
 public class NoExitException extends BlockWorldException {
 
-    public NoExitException(){
+    public NoExitException() {
 
     }
 }

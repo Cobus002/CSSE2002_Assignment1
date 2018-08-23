@@ -4,9 +4,9 @@ public abstract class GroundBlock implements Block {
     /***
      * Initialise the GroundBlock with default values
      */
-    public GroundBlock(){
-        this.diggable=true;
-        this.moveable=false;
+    public GroundBlock() {
+        this.diggable = true;
+        this.moveable = false;
     }
 
     /***

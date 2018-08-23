@@ -92,6 +92,13 @@ public class Builder {
         this.currentTile.placeBlock(dropBlock);
     }
 
+    /**
+     * Try to dig on the current tile. If tile is not diggable the function
+     * will throw an exception. TooLowException if there are no blocks on the
+     * current tile or InvalidBlockException if the block is not diggable.
+     * @throws TooLowException
+     * @throws InvalidBlockException
+     */
     public void digOnCurrentTile() throws TooLowException,
             InvalidBlockException {
         //The dig function already throws the exceptions when too low

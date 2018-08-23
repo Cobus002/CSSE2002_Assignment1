@@ -1,7 +1,7 @@
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+//Ask tutor: If the following tests will do
 public class GrassBlockTest {
     private GrassBlock testBlock = new GrassBlock();
     private static final String BLOCK_TYPE = "grass";
