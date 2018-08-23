@@ -20,10 +20,20 @@ public class TileTest {
     }
 
     @Test
-    public void getExitsDefault() {
+    public void getExits() {
         //By default there should be no exits
         assertEquals(0, testTile.getExits().size());
     }
+    @Test
+    public void getExitsWorking() throws NoExitException{
+        //Create an exit tile
+        Tile exitTile = new Tile();
+        //Add an exit to get assume addExit() works
+        testTile.addExit("North", exitTile);
+        //Check if original exit tile is returned
+        assertSame(exitTile, testTile.getExits().get("North"));
+    }
+
 
     @Test
     public void getBlocks() throws TooHighException{
@@ -53,33 +63,40 @@ public class TileTest {
 
     @Test
     public void removeTopBlock() throws TooLowException {
+        //TODO: Implement test
 
 
     }
 
     @Test
     public void removeTopBlockTooLowException() throws TooLowException {
+        //TODO: Implement test
 
     }
 
 
     @Test
     public void addExit() {
+        //TODO: Implement test
     }
 
     @Test
     public void removeExit() {
+        //TODO: Implement test
     }
 
     @Test
     public void dig() {
+        //TODO: Implement test
     }
 
     @Test
     public void moveBlock() {
+        //TODO: Implement test
     }
 
     @Test
     public void placeBlock() {
+        //TODO: Implement test
     }
 }
