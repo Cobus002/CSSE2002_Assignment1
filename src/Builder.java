@@ -124,13 +124,12 @@ public class Builder {
         Map<String, Tile> exits = this.currentTile.getExits();
         Iterator iterator = exits.entrySet().iterator();
         boolean isEntryInExits = false;
-
+        //Check all the entries in the map
         while (iterator.hasNext()) {
-            //Ask tutor about the use of the equals below
             Map.Entry entry = (Map.Entry) iterator.next();
-            String name = (String) entry.getKey();
-            Tile tile = (Tile) entry.getValue();
-            if (newTile.equals(tile)) {
+            String name = (String) entry.getKey(); //Get the name key
+            Tile tile = (Tile) entry.getValue(); //Get the tile value
+            if (newTile == tile) {
                 isEntryInExits = true;
                 break;
             }

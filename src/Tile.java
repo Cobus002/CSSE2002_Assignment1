@@ -47,6 +47,10 @@ public class Tile implements Serializable {
 
     }
 
+    /**
+     * Get the exits available from this tile
+     * @return
+     */
     public Map<String, Tile> getExits() {
         //Possible wrong implementation
         return this.exits;
@@ -58,12 +62,30 @@ public class Tile implements Serializable {
 
     }
 
-    public Block getTopBlock() {
+    /**
+     * Get the top block on the tile. Throws a TooLowException if there are
+     * no blocks on the tile.
+     *
+     * @return
+     * @throws TooLowException
+     */
+    public Block getTopBlock() throws TooLowException {
         //return only the block on the top
         int blockCount = this.getBlocks().size();
-        return this.getBlocks().get(blockCount - 1);
+        if (blockCount <= 0) {
+            throw new TooLowException();
+        } else {
+            return this.getBlocks().get(blockCount - 1);
+        }
+
     }
 
+    /**
+     * Remove the top most block on the tile. Throws a TooLowException if
+     * there are no blocks on the tile.
+     *
+     * @throws TooLowException
+     */
     public void removeTopBlock() throws TooLowException {
         //Remove the top block from the tile
         int blockCount = this.getBlocks().size();
@@ -75,7 +97,7 @@ public class Tile implements Serializable {
     }
 
     public void addExit(String name, Tile target) throws NoExitException {
-        //Check the inputs
+        //Check the input is actually a
         if (target == null || name == null) {
             //Oops not valid
             throw new NoExitException();
@@ -83,7 +105,6 @@ public class Tile implements Serializable {
             //Add to the exits map
             exits.put(name, target);
         }
-
     }
 
     public void removeExit(String name) throws NoExitException {
@@ -95,6 +116,15 @@ public class Tile implements Serializable {
         }
     }
 
+    /**
+     * Attempt to dig in the current tile.
+     * If the top block (given by getTopBlock()) is diggable
+     * (block.isDiggable()), remove the top block of the tile and return it.
+     *
+     * @return
+     * @throws TooLowException
+     * @throws InvalidBlockException
+     */
     public Block dig() throws TooLowException, InvalidBlockException {
         Block topBlock;
         //Check if there are blocks
@@ -111,8 +141,25 @@ public class Tile implements Serializable {
         }
     }
 
+    /**
+     * Attempt to move the current top block to another tile. Remove the top
+     * block (given by getTopBlock()) from this tile and add it to the tile
+     * at the named exit (exitName in getExits()), if the block is moveable
+     * (block.isMoveable()) and the height of that tile (the number of blocks
+     * given by getBlocks().size()) is less than the current tile *before*
+     * the  move.
+     *
+     * @param exitName
+     * @throws TooHighException
+     * @throws InvalidBlockException
+     * @throws NoExitException
+     */
     public void moveBlock(String exitName) throws TooHighException,
             InvalidBlockException, NoExitException {
+
+        Block topBlock = blocks.get(blocks.size() - 1); //May be null check for
+        //  this case
+
         if (!(exitName == null || !this.getExits().containsKey(exitName))) {
             //Name null or keyDoesn't exist
             throw new NoExitException();
@@ -120,22 +167,29 @@ public class Tile implements Serializable {
                 <= this.exits.get(exitName).getBlocks().size()) {
             //Current tile has less tiles than the exit tile
             throw new TooHighException();
-        } else if (!this.getTopBlock().isMoveable()) {
+        } else if (!topBlock.isMoveable()) {
             //The block is not movable
             throw new InvalidBlockException();
         }
         //All is good move the block
         Tile targetTile = this.getExits().get(exitName);
-        targetTile.placeBlock(this.getTopBlock());
+        targetTile.placeBlock(topBlock);
         try {
             //Try to remove the top block since we moved it
             this.removeTopBlock();
         } catch (TooLowException e) {
-            //Too low
-
+            //Too low but shouldn't reach this since above if elses would catch
         }
     }
 
+    /**
+     * Place a block on a tile. Add the block to the top of the blocks on
+     * this tile.
+     *
+     * @param block
+     * @throws TooHighException
+     * @throws InvalidBlockException
+     */
     public void placeBlock(Block block) throws TooHighException,
             InvalidBlockException {
         int blockHeight = this.getBlocks().size();
