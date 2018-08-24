@@ -127,14 +127,17 @@ public class Tile implements Serializable {
      */
     public Block dig() throws TooLowException, InvalidBlockException {
         Block topBlock;
+        int blockCount=0;
         //Check if there are blocks
         if (this.blocks.isEmpty()) {
             throw new TooLowException();
         } else {
             topBlock = getTopBlock();
+            blockCount = this.blocks.size();
         }
         //Continue and check if diggable
         if (topBlock.isDiggable()) {
+            this.blocks.remove(blockCount-1);
             return topBlock;
         } else {
             throw new InvalidBlockException();

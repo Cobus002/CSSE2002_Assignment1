@@ -86,13 +86,48 @@ public class TileTest {
     }
 
     @Test
-    public void removeExit() {
-        //TODO: Implement test
+    public void removeExit() throws NoExitException{
+        //Assume that addExit() works
+        try {
+            testTile.addExit("North", new Tile());
+        }catch (NoExitException e){
+            //Squash the exception as it shouldn't throw assuming addExit()
+            // works
+        }
+        testTile.removeExit("North");
+    }
+
+    @Test (expected = NoExitException.class)
+    public void removeExitNoExitException() throws NoExitException{
+        //Assume that addExit() works
+        try {
+            testTile.addExit("North", new Tile());
+        }catch (NoExitException e){
+            //Squash the exception as it shouldn't throw assuming addExit()
+            // works
+        }
+        testTile.removeExit("South");
     }
 
     @Test
-    public void dig() {
-        //TODO: Implement test
+    public void dig() throws TooLowException,
+            InvalidBlockException, TooHighException{
+
+        int numBlocks = testTile.getBlocks().size();
+        Block topBlock = testTile.getTopBlock();
+        Block digBlock = testTile.dig();
+        //Check the returned block is actually the topBlock
+        //assume getTopBlock() works...
+        assertSame(digBlock, topBlock);
+        //Check that the block was actually removed from the tile
+        assertEquals(2, testTile.getBlocks().size());
+    }
+
+    @Test (expected = TooLowException.class)
+    public void digTooLowException() throws TooLowException,
+            InvalidBlockException, TooHighException{
+        testTile = new Tile(testBlocks);
+        testTile.dig();
     }
 
     @Test
