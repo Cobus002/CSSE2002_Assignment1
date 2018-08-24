@@ -19,15 +19,11 @@ public class TileTest {
     }
 
     @Test
-    public void getExits() {
-        //By default there should be no exits
-        assertEquals(0, testTile.getExits().size());
-    }
-
-    @Test
-    public void getExitsWorking() throws NoExitException {
+    public void getExits() throws NoExitException {
         //Create an exit tile
         Tile exitTile = new Tile();
+        //By default there should be no exits
+        assertEquals(0, testTile.getExits().size());
         //Add an exit to get assume addExit() works
         testTile.addExit("North", exitTile);
         //Check if original exit tile is returned
@@ -68,10 +64,12 @@ public class TileTest {
         assertNotEquals(topBlock, testTile.getTopBlock());
     }
 
-    @Test
-    public void removeTopBlockTooLowException() throws TooLowException {
+    @Test (expected = TooLowException.class)
+    public void removeTopBlockTooLowException() throws TooLowException,
+            TooHighException{
         //testTile implemented with no tiles
-        testTile.removeTopBlock();
+        testTile = new Tile(testBlocks);
+        testTile.removeTopBlock();//Fails
     }
 
     @Test
