@@ -54,30 +54,35 @@ public class TileTest {
     @Test(expected = TooLowException.class)
     public void getTopBlockTooLowException() throws TooLowException,
             TooHighException {
-
-        List<Block> startBlocks = new LinkedList<Block>();
-        //startBlocks.add(woodBlock);
-        Tile testTile2 = new Tile(startBlocks);
+        Tile testTile2 = new Tile(testBlocks);
         testTile2.getTopBlock();
     }
 
     @Test
     public void removeTopBlock() throws TooLowException {
-        //TODO: Implement test
-
-
+        //Initialise the default tile configuration
+        testTile = new Tile();
+        Block topBlock = testTile.getTopBlock();
+        testTile.removeTopBlock();
+        //The below code assumes that getTopBlock works
+        assertNotEquals(topBlock, testTile.getTopBlock());
     }
 
     @Test
     public void removeTopBlockTooLowException() throws TooLowException {
-        //TODO: Implement test
-
+        //testTile implemented with no tiles
+        testTile.removeTopBlock();
     }
 
 
     @Test
-    public void addExit() {
-        //TODO: Implement test
+    public void addExit() throws NoExitException {
+        testTile.addExit("North", new Tile());
+    }
+
+    @Test (expected = NoExitException.class)
+    public void addExitNoExitException() throws NoExitException {
+        testTile.addExit(null, null);
     }
 
     @Test

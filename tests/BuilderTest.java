@@ -3,11 +3,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BuilderTest {
+    //Set up some reusable elements
     private Tile testTile = new Tile();
     private String builderName = new String("Cobus");
     private Builder testBuilder = new Builder(builderName, testTile);
 
-
+    //Test the get name function
     @Test
     public void getName() {
         assertEquals(builderName, testBuilder.getName());
@@ -15,6 +16,7 @@ public class BuilderTest {
 
     @Test
     public void getCurrentTile() {
+        assertEquals(testTile, testBuilder.getCurrentTile());
 
     }
 
