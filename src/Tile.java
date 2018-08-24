@@ -195,16 +195,23 @@ public class Tile implements Serializable {
      */
     public void placeBlock(Block block) throws TooHighException,
             InvalidBlockException {
+        //Get the GroundBlock class to compare to the block's class later
+        GroundBlock gBlock = new GrassBlock();
+        Class gBlockClass = gBlock.getClass();
+
         int blockHeight = this.getBlocks().size();
         if (block == null) {
             throw new InvalidBlockException();
         } else if (blockHeight > 8) {
             throw new TooHighException();
-        } else if ((blockHeight > 3) && (block instanceof GroundBlock)) {
+        } else if ((blockHeight >= 3) && (gBlockClass.isAssignableFrom(block.getClass()))) {
             throw new TooHighException();
         } else {
             this.blocks.add(block);
         }
+
+
+
     }
 
 

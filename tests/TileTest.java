@@ -7,7 +7,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TileTest {
-    private static int DEFAULT_NUM_BLOCKS = 3;
     private Tile testTile;
     private List<Block> testBlocks;
     private static Block woodBlock = new WoodBlock();
@@ -75,7 +74,6 @@ public class TileTest {
         testTile.removeTopBlock();
     }
 
-
     @Test
     public void addExit() throws NoExitException {
         Tile exitTile = new Tile();
@@ -115,7 +113,7 @@ public class TileTest {
 
     @Test
     public void dig() throws TooLowException,
-            InvalidBlockException, TooHighException {
+            InvalidBlockException {
         int numBlocks = testTile.getBlocks().size();
         Block topBlock = testTile.getTopBlock();
         Block digBlock = testTile.dig();
@@ -123,7 +121,7 @@ public class TileTest {
         //assume getTopBlock() works...
         assertSame(digBlock, topBlock);
         //Check that the block was actually removed from the tile
-        assertEquals(2, testTile.getBlocks().size());
+        assertEquals(numBlocks - 1, testTile.getBlocks().size());
     }
 
     @Test(expected = TooLowException.class)
@@ -157,8 +155,7 @@ public class TileTest {
 
     @Test(expected = TooHighException.class)
     public void moveBlockTooHighException() throws TooHighException,
-            InvalidBlockException,
-            NoExitException {
+            InvalidBlockException, NoExitException {
         //Create the tile to move to same height as testTile
         Tile moveToTile = new Tile();
         //Add the moveToTile to the testTile exits map
@@ -169,9 +166,54 @@ public class TileTest {
         testTile.moveBlock("North"); //Fail
     }
 
+    @Test(expected = InvalidBlockException.class)
+    public void moveBlockInvalidBlockException() throws TooHighException,
+            InvalidBlockException, NoExitException {
+        //Create the tile to move to same height as testTile
+        Tile moveToTile = new Tile();
+        Block immovableBlock = new StoneBlock();
+        //Add imovable block to the tile
+        testTile.placeBlock(immovableBlock);
+        //Add the moveToTile to the testTile exits map
+        testTile.addExit("North", moveToTile);
+        //Check that it has been added
+        assertTrue(testTile.getExits().containsKey("North"));
+        //Move the block
+        testTile.moveBlock("North"); //Fail
+    }
+
+    @Test(expected = NoExitException.class)
+    public void moveBlockNoExitException() throws TooHighException,
+            InvalidBlockException,
+            NoExitException, TooLowException {
+        //Create the tile to move to same height as testTile
+        Tile moveToTile = new Tile();
+        //Create block to add to testTile to make it 1 higher
+        Block blockToMove = new WoodBlock();
+        testTile.placeBlock(blockToMove);
+        testTile.addExit("North", moveToTile);
+        assertTrue(testTile.getExits().containsKey("North"));
+        testTile.moveBlock("South"); //Fail, NoExitException
+    }
 
     @Test
-    public void placeBlock() {
-        //TODO: Implement test
+    public void placeBlock() throws TooHighException, InvalidBlockException {
+        //Create a block to place
+        Block blockToPlace = new WoodBlock();
+        testTile.placeBlock(blockToPlace);//Succeed
+    }
+
+    @Test(expected = TooHighException.class)
+    public void placeBlockTooHighException() throws InvalidBlockException,
+            TooHighException {
+        GrassBlock blockToPlace = new GrassBlock();
+        testTile.placeBlock(blockToPlace);//Fail
+
+    }
+
+    @Test(expected = InvalidBlockException.class)
+    public void placeBlockInvalidBlockException() throws TooHighException,
+            InvalidBlockException {
+        testTile.placeBlock(null);//Fail
     }
 }
