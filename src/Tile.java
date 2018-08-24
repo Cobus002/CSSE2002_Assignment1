@@ -163,7 +163,7 @@ public class Tile implements Serializable {
         Block topBlock = blocks.get(blocks.size() - 1); //May be null check for
         //  this case
 
-        if (!(exitName == null || !this.getExits().containsKey(exitName))) {
+        if (!(exitName == null || this.getExits().containsKey(exitName))) {
             //Name null or keyDoesn't exist
             throw new NoExitException();
         } else if (this.getBlocks().size()

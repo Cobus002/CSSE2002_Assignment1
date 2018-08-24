@@ -24,8 +24,9 @@ public class TileTest {
         //By default there should be no exits
         assertEquals(0, testTile.getExits().size());
     }
+
     @Test
-    public void getExitsWorking() throws NoExitException{
+    public void getExitsWorking() throws NoExitException {
         //Create an exit tile
         Tile exitTile = new Tile();
         //Add an exit to get assume addExit() works
@@ -36,7 +37,7 @@ public class TileTest {
 
 
     @Test
-    public void getBlocks() throws TooHighException{
+    public void getBlocks() throws TooHighException {
         testBlocks.add(new WoodBlock());
         testTile = new Tile(testBlocks);
         assertEquals(1, testTile.getBlocks().size()); //Check size equal
@@ -77,32 +78,35 @@ public class TileTest {
 
     @Test
     public void addExit() throws NoExitException {
-        testTile.addExit("North", new Tile());
+        Tile exitTile = new Tile();
+        testTile.addExit("North", exitTile);
+        assertEquals(1, testTile.getExits().size());
+        assertSame(exitTile, testTile.getExits().get("North"));
     }
 
-    @Test (expected = NoExitException.class)
+    @Test(expected = NoExitException.class)
     public void addExitNoExitException() throws NoExitException {
         testTile.addExit(null, null);
     }
 
     @Test
-    public void removeExit() throws NoExitException{
+    public void removeExit() throws NoExitException {
         //Assume that addExit() works
         try {
             testTile.addExit("North", new Tile());
-        }catch (NoExitException e){
+        } catch (NoExitException e) {
             //Squash the exception as it shouldn't throw assuming addExit()
             // works
         }
         testTile.removeExit("North");
     }
 
-    @Test (expected = NoExitException.class)
-    public void removeExitNoExitException() throws NoExitException{
+    @Test(expected = NoExitException.class)
+    public void removeExitNoExitException() throws NoExitException {
         //Assume that addExit() works
         try {
             testTile.addExit("North", new Tile());
-        }catch (NoExitException e){
+        } catch (NoExitException e) {
             //Squash the exception as it shouldn't throw assuming addExit()
             // works
         }
@@ -111,8 +115,7 @@ public class TileTest {
 
     @Test
     public void dig() throws TooLowException,
-            InvalidBlockException, TooHighException{
-
+            InvalidBlockException, TooHighException {
         int numBlocks = testTile.getBlocks().size();
         Block topBlock = testTile.getTopBlock();
         Block digBlock = testTile.dig();
@@ -123,17 +126,49 @@ public class TileTest {
         assertEquals(2, testTile.getBlocks().size());
     }
 
-    @Test (expected = TooLowException.class)
+    @Test(expected = TooLowException.class)
     public void digTooLowException() throws TooLowException,
-            InvalidBlockException, TooHighException{
+            InvalidBlockException, TooHighException {
         testTile = new Tile(testBlocks);
         testTile.dig();
     }
 
-    @Test
-    public void moveBlock() {
-        //TODO: Implement test
+    @Test(expected = InvalidBlockException.class)
+    public void digInvalidBlockException() throws TooLowException,
+            InvalidBlockException, TooHighException {
+        testTile = new Tile(testBlocks);
+        testTile.placeBlock(new StoneBlock());
+        testTile.dig();
     }
+
+    @Test
+    public void moveBlock() throws TooHighException, InvalidBlockException,
+            NoExitException, TooLowException {
+        //Create the tile to move to same height as testTile
+        Tile moveToTile = new Tile();
+        //Create block to add to testTile to make it 1 higher
+        Block blockToMove = new WoodBlock();
+        testTile.placeBlock(blockToMove);
+        testTile.addExit("North", moveToTile);
+        assertTrue(testTile.getExits().containsKey("North"));
+        testTile.moveBlock("North");
+        assertSame(blockToMove, moveToTile.getTopBlock());
+    }
+
+    @Test(expected = TooHighException.class)
+    public void moveBlockTooHighException() throws TooHighException,
+            InvalidBlockException,
+            NoExitException {
+        //Create the tile to move to same height as testTile
+        Tile moveToTile = new Tile();
+        //Add the moveToTile to the testTile exits map
+        testTile.addExit("North", moveToTile);
+        //Check that it has been added
+        assertTrue(testTile.getExits().containsKey("North"));
+        //Move the block
+        testTile.moveBlock("North"); //Fail
+    }
+
 
     @Test
     public void placeBlock() {
