@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class Builder {
     private Tile currentTile;
     private List<Block> inventory;
 
-    /***
+    /**
      * Initialise the Builder with name and starting tile
      * @param name
      * @param startingTile
@@ -16,10 +17,11 @@ public class Builder {
     public Builder(String name, Tile startingTile) {
         this.name = new String(name);
         this.currentTile = startingTile;
+        this.inventory = new LinkedList<>();
 
     }
 
-    /***
+    /**
      * Initialise the Builder with name, starting tile and inventory
      * @param name
      * @param startingTile
@@ -36,11 +38,11 @@ public class Builder {
                 throw new InvalidBlockException();
             }
         }
-        //Blocks are all good
+        //Blocks are all good add to inventory
         this.inventory = startingInventory;
     }
 
-    /***
+    /**
      * Get the name of the current builder instance
      * @return
      */
@@ -48,7 +50,7 @@ public class Builder {
         return this.name;
     }
 
-    /***
+    /**
      * Get the tile on which the builder is currently on.
      * @return
      */
@@ -56,7 +58,7 @@ public class Builder {
         return this.currentTile;
     }
 
-    /***
+    /**
      * Get a list of the blocks currently in the builder inventory
      * @return
      */
@@ -64,7 +66,7 @@ public class Builder {
         return this.inventory;
     }
 
-    /***
+    /**
      * Drop the inventory item given at index on the current tile.
      * Only possible if some conditions are met.
      * @param inventoryIndex
@@ -79,7 +81,8 @@ public class Builder {
 
         try {
             dropBlock = this.inventory.get(inventoryIndex);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
+
             throw new InvalidBlockException();
         }
 
@@ -90,6 +93,7 @@ public class Builder {
         }
 
         this.currentTile.placeBlock(dropBlock);
+        this.inventory.remove(dropBlock);
     }
 
     /**

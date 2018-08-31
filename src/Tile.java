@@ -28,7 +28,7 @@ public class Tile implements Serializable {
 
     public Tile(List<Block> startingBlocks) throws TooHighException {
         int blockCount = startingBlocks.size();
-        //Check the starting blocks...
+        //Check the starting blocks are not >8 and all are
         if (blockCount > 8) {
             throw new TooHighException();
         }
