@@ -11,27 +11,46 @@ public class WoodBlock implements Block {
 
     }
 
-
+    /**
+     * Check what type the block is
+     * @return
+     */
     @Override
     public String getBlockType() {
         return this.type;
     }
 
+    /**
+     * Check what colour the block is
+     * @return
+     */
     @Override
     public String getColour() {
         return this.colour;
     }
 
+    /**
+     * Check if the block can be carried
+     * @return
+     */
     @Override
     public boolean isCarryable() {
         return this.carryable;
     }
 
+    /**
+     * Chyeck if the block is diggable.
+     * @return
+     */
     @Override
     public boolean isDiggable() {
         return this.diggable;
     }
 
+    /**
+     * Check if the block can be moved
+     * @return
+     */
     @Override
     public boolean isMoveable() {
         return this.moveable;
