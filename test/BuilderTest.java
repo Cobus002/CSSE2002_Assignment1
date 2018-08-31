@@ -181,7 +181,7 @@ public class BuilderTest {
         assertSame(tileToMoveTo, testBuilder.getCurrentTile());//Pass
     }
 
-    @Test (expected = NoExitException.class)
+    @Test(expected = NoExitException.class)
     public void moveToNoExitException() throws NoExitException,
             TooHighException,
             InvalidBlockException {

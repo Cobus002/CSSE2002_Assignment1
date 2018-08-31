@@ -35,7 +35,7 @@ public class TileTest {
     public void getBlocks() throws TooHighException {
         testBlocks.add(new WoodBlock());
         testTile = new Tile(testBlocks);
-        assertEquals(1, testTile.getBlocks().size()); //Check size equal
+        assertEquals(1, testTile.getBlocks().size()); //Check size
         assertSame(testBlocks, testTile.getBlocks()); //Check memory equal
     }
 
@@ -64,9 +64,9 @@ public class TileTest {
         assertNotEquals(topBlock, testTile.getTopBlock());
     }
 
-    @Test (expected = TooLowException.class)
+    @Test(expected = TooLowException.class)
     public void removeTopBlockTooLowException() throws TooLowException,
-            TooHighException{
+            TooHighException {
         //testTile implemented with no tiles
         testTile = new Tile(testBlocks);
         testTile.removeTopBlock();//Fails
