@@ -10,11 +10,15 @@
 import org.junit.*;
 import org.junit.runners.model.InitializationError;
 import org.junit.runner.notification.RunNotifier;
+
 import static org.junit.Assert.*;
+
 import org.junit.runners.JUnit4;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.junit.rules.Timeout;
 
 import java.lang.reflect.*;
@@ -25,12 +29,12 @@ public class TestMethods {
 
     // set a 20 second timeout on all test cases.
     @Rule
-    public Timeout gt=Timeout.seconds(20);
+    public Timeout gt = Timeout.seconds(20);
 
     // constants for NO_ARGS and NO_EXCEPTIONS
     // are just empty arrays
-    public static String [] NO_ARGS = {};
-    public static String [] NO_EXCEPTIONS = {};
+    public static String[] NO_ARGS = {};
+    public static String[] NO_EXCEPTIONS = {};
 
     private static class ExpectedMethod {
         /* A helper class to store information
@@ -43,7 +47,7 @@ public class TestMethods {
         public List<String> exceptionTypes;
 
         public ExpectedMethod(String methodName, String returnType,
-                              String [] argumentTypes) {
+                              String[] argumentTypes) {
             /* Constructors in this class are just
                a quick way to fill in the fields. */
             this.methodName = methodName;
@@ -55,8 +59,8 @@ public class TestMethods {
         }
 
         public ExpectedMethod(String methodName, String returnType,
-                              String [] argumentTypes,
-                              String [] exceptionTypes) {
+                              String[] argumentTypes,
+                              String[] exceptionTypes) {
             /* Constructors in this class are just
                a quick way to fill in the fields. */
             this.methodName = methodName;
@@ -133,7 +137,7 @@ public class TestMethods {
                             " throws wrong number of exceptions (" +
                             constructor.getExceptionTypes().length + ")",
                     constructor.getExceptionTypes().length == 0);
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile)");
         }
 
@@ -151,7 +155,7 @@ public class TestMethods {
                             "throw InvalidBlockException",
                     constructor.getExceptionTypes()[0].getName().equals(
                             "InvalidBlockException"));
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile, List)");
         }
 
@@ -164,22 +168,22 @@ public class TestMethods {
                 NO_EXCEPTIONS));
         expectedFields.add(new ExpectedMethod("getInventory", "java.util.List",
                 NO_ARGS, NO_EXCEPTIONS));
-        String [] dropFromInventoryArgs = {"int"};
-        String [] dropFromInventoryExceptions =
+        String[] dropFromInventoryArgs = {"int"};
+        String[] dropFromInventoryExceptions =
                 {"InvalidBlockException", "TooHighException"};
         expectedFields.add(new ExpectedMethod("dropFromInventory", "void",
                 dropFromInventoryArgs,
                 dropFromInventoryExceptions));
-        String [] digOnCurrentTileExceptions =
+        String[] digOnCurrentTileExceptions =
                 {"InvalidBlockException", "TooLowException"};
         expectedFields.add(new ExpectedMethod("digOnCurrentTile", "void",
                 NO_ARGS,
                 digOnCurrentTileExceptions));
-        String [] canEnterArgs = {"Tile"};
+        String[] canEnterArgs = {"Tile"};
         expectedFields.add(new ExpectedMethod("canEnter", "boolean",
                 canEnterArgs, NO_EXCEPTIONS));
-        String [] moveToArgs = {"Tile"};
-        String [] moveToExceptions = {"NoExitException"};
+        String[] moveToArgs = {"Tile"};
+        String[] moveToExceptions = {"NoExitException"};
         expectedFields.add(new ExpectedMethod("moveTo", "void", moveToArgs,
                 moveToExceptions));
         checkExpectedMethods(Builder.class.getMethods(), expectedFields);
@@ -297,7 +301,7 @@ public class TestMethods {
         try {
             Constructor<InvalidBlockException> constructor =
                     InvalidBlockException.class.getDeclaredConstructor();
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile)");
         }
 
@@ -325,7 +329,7 @@ public class TestMethods {
         try {
             Constructor<NoExitException> constructor =
                     NoExitException.class.getDeclaredConstructor();
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile)");
         }
 
@@ -429,23 +433,23 @@ public class TestMethods {
                             "throws wrong number of exceptions (" +
                             constructor.getExceptionTypes().length + ")",
                     constructor.getExceptionTypes().length == 0);
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing Tile constructor with args ()");
         }
 
         try {
             Constructor<Tile> constructor =
                     Tile.class.getDeclaredConstructor(List.class);
-            assertTrue("Tile constructor with args (List) "+
+            assertTrue("Tile constructor with args (List) " +
                             "throws wrong number of exceptions (" +
                             constructor.getExceptionTypes().length + ")",
                     constructor.getExceptionTypes().length == 1);
             assertTrue(
-                    "Tile constructor with args (Tile, List) "+
+                    "Tile constructor with args (Tile, List) " +
                             " does not throw TooHighException",
                     constructor.getExceptionTypes()[0].getName().equals(
                             "TooHighException"));
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing Tile constructor with args (List)");
         }
 
@@ -455,34 +459,34 @@ public class TestMethods {
                 NO_ARGS));
         expectedFields.add(new ExpectedMethod("getBlocks", "java.util.List",
                 NO_ARGS));
-        String [] getTopBlockExceptions = {"TooLowException"};
+        String[] getTopBlockExceptions = {"TooLowException"};
         expectedFields.add(new ExpectedMethod("getTopBlock", "Block", NO_ARGS,
                 getTopBlockExceptions));
-        String [] removeTopBlockExceptions = {"TooLowException"};
+        String[] removeTopBlockExceptions = {"TooLowException"};
         expectedFields.add(new ExpectedMethod("removeTopBlock", "void",
                 NO_ARGS,
                 removeTopBlockExceptions));
-        String [] addExitArgs = {"java.lang.String", "Tile"};
-        String [] addExitExceptions = {"NoExitException"};
+        String[] addExitArgs = {"java.lang.String", "Tile"};
+        String[] addExitExceptions = {"NoExitException"};
         expectedFields.add(new ExpectedMethod("addExit", "void", addExitArgs,
                 addExitExceptions));
-        String [] removeExitArgs = {"java.lang.String"};
-        String [] removeExitExceptions = {"NoExitException"};
+        String[] removeExitArgs = {"java.lang.String"};
+        String[] removeExitExceptions = {"NoExitException"};
         expectedFields.add(new ExpectedMethod("removeExit", "void",
                 removeExitArgs,
                 removeExitExceptions));
-        String [] digExceptions = {"TooLowException",
+        String[] digExceptions = {"TooLowException",
                 "InvalidBlockException"};
         expectedFields.add(new ExpectedMethod("dig", "Block", NO_ARGS,
                 digExceptions));
-        String [] moveBlockArgs = {"java.lang.String"};
-        String [] moveBlockExceptions =
+        String[] moveBlockArgs = {"java.lang.String"};
+        String[] moveBlockExceptions =
                 {"TooHighException", "InvalidBlockException", "NoExitException"};
         expectedFields.add(new ExpectedMethod("moveBlock", "void",
                 moveBlockArgs,
                 moveBlockExceptions));
-        String [] placeBlockArgs = {"Block"};
-        String [] placeBlockExceptions =
+        String[] placeBlockArgs = {"Block"};
+        String[] placeBlockExceptions =
                 {"TooHighException", "InvalidBlockException"};
         expectedFields.add(new ExpectedMethod("placeBlock", "void",
                 placeBlockArgs,
@@ -520,7 +524,7 @@ public class TestMethods {
         try {
             Constructor<TooHighException> constructor =
                     TooHighException.class.getDeclaredConstructor();
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile)");
         }
 
@@ -547,7 +551,7 @@ public class TestMethods {
         try {
             Constructor<TooLowException> constructor =
                     TooLowException.class.getDeclaredConstructor();
-        } catch(NoSuchMethodException noSuchMethod) {
+        } catch (NoSuchMethodException noSuchMethod) {
             fail("Missing builder constructor with args (Tile)");
         }
 
@@ -629,7 +633,7 @@ public class TestMethods {
     /*
      * Check that expected fields all exist within methods using assertions.
      */
-    private void checkExpectedMethods(Method [] methods,
+    private void checkExpectedMethods(Method[] methods,
                                       List<ExpectedMethod> expectedFields) {
 
         List<String> methodNames = new ArrayList<>();
@@ -717,7 +721,8 @@ public class TestMethods {
 
         // sort both
         methodExceptionTypes.sort(new java.util.Comparator<Class>() {
-            @Override public int compare(Class klass1, Class klass2) {
+            @Override
+            public int compare(Class klass1, Class klass2) {
                 return klass1.getName().compareTo(klass2.getName());
             }
         });

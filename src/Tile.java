@@ -5,6 +5,7 @@
     move from one tile to an adjacent one if it is located in the current
     tile's available exits map.
  */
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public class Tile implements Serializable {
      * This tile constructo allows the user to specify the starting blocks on
      * the tile. However block count must be less than 8 and GroundBlocks
      * can't be placed at an index of greater than or equal to 3.
+     *
      * @param startingBlocks
      * @throws TooHighException
      */
@@ -68,6 +70,7 @@ public class Tile implements Serializable {
 
     /**
      * Get the exits available from this tile
+     *
      * @return
      */
     public Map<String, Tile> getExits() {
@@ -117,6 +120,7 @@ public class Tile implements Serializable {
 
     /**
      * Add a new exit Key and Value pair to the exits map of the current tile
+     *
      * @param name
      * @param target
      * @throws NoExitException
@@ -135,6 +139,7 @@ public class Tile implements Serializable {
     /**
      * Remove an exit with the key given by "name" from the current tile's
      * exits map.
+     *
      * @param name
      * @throws NoExitException
      */
@@ -158,7 +163,7 @@ public class Tile implements Serializable {
      */
     public Block dig() throws TooLowException, InvalidBlockException {
         Block topBlock;
-        int blockCount=0;
+        int blockCount = 0;
         //Check if there are blocks
         if (this.blocks.isEmpty()) {
             throw new TooLowException();
@@ -168,7 +173,7 @@ public class Tile implements Serializable {
         }
         //Continue and check if diggable
         if (topBlock.isDiggable()) {
-            this.blocks.remove(blockCount-1);
+            this.blocks.remove(blockCount - 1);
             return topBlock;
         } else {
             throw new InvalidBlockException();
@@ -235,7 +240,8 @@ public class Tile implements Serializable {
             throw new InvalidBlockException();
         } else if (blockHeight > 8) {
             throw new TooHighException();
-        } else if ((blockHeight >= 3) && (gBlockClass.isAssignableFrom(block.getClass()))) {
+        } else if ((blockHeight >= 3) &&
+                (gBlockClass.isAssignableFrom(block.getClass()))) {
             throw new TooHighException();
         } else {
             this.blocks.add(block);

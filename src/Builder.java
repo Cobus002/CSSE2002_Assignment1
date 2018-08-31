@@ -2,10 +2,12 @@
     This is the Builder() class which implements the functionality of a builder
     character that will manipulate and move in the block world.
  */
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 public class Builder {
     private String name;
     private Tile currentTile;
@@ -13,6 +15,7 @@ public class Builder {
 
     /**
      * Initialise the Builder with name and starting tile
+     *
      * @param name
      * @param startingTile
      */
@@ -25,6 +28,7 @@ public class Builder {
 
     /**
      * Initialise the Builder with name, starting tile and inventory
+     *
      * @param name
      * @param startingTile
      * @param startingInventory
@@ -46,6 +50,7 @@ public class Builder {
 
     /**
      * Get the name of the current builder instance
+     *
      * @return
      */
     public String getName() {
@@ -54,6 +59,7 @@ public class Builder {
 
     /**
      * Get the tile on which the builder is currently on.
+     *
      * @return
      */
     public Tile getCurrentTile() {
@@ -62,6 +68,7 @@ public class Builder {
 
     /**
      * Get a list of the blocks currently in the builder inventory
+     *
      * @return
      */
     public List<Block> getInventory() {
@@ -71,6 +78,7 @@ public class Builder {
     /**
      * Drop the inventory item given at index on the current tile.
      * Only possible if some conditions are met.
+     *
      * @param inventoryIndex
      * @throws InvalidBlockException
      * @throws TooHighException
@@ -102,6 +110,7 @@ public class Builder {
      * Try to dig on the current tile. If tile is not diggable the function
      * will throw an exception. TooLowException if there are no blocks on the
      * current tile or InvalidBlockException if the block is not diggable.
+     *
      * @throws TooLowException
      * @throws InvalidBlockException
      */
