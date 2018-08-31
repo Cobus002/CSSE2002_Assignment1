@@ -1,9 +1,11 @@
+/*
+    This is the Builder() class which implements the functionality of a builder
+    character that will manipulate and move in the block world.
+ */
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-
 public class Builder {
     private String name;
     private Tile currentTile;

@@ -1,3 +1,8 @@
+/*
+    This file tests the functionality of all Builder class with the use of
+    JUnit4 tests.
+ */
+
 import org.junit.Test;
 
 import java.util.LinkedList;

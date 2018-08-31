@@ -1,3 +1,10 @@
+/*
+    This is the Tile class. A tile holds a set of blocks and references to
+    adjacent tiles. A builder can manipulate the blocks located on a tile
+    with the use of the functions within the tile class. A builder can also
+    move from one tile to an adjacent one if it is located in the current
+    tile's available exits map.
+ */
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +17,11 @@ public class Tile implements Serializable {
     Map<String, Tile> exits; //Exits from this tile
 
 
+    /**
+     * Default tile constructor. This constructor initialises the tile with a
+     * total of 3 tiles. The tiles are soil->soil->grass. The exits map is
+     * also initialised but is empty.
+     */
     public Tile() {
         //Create the default block list
         blocks = new ArrayList<Block>();
@@ -26,6 +38,13 @@ public class Tile implements Serializable {
         exits = new HashMap<String, Tile>();
     }
 
+    /**
+     * This tile constructo allows the user to specify the starting blocks on
+     * the tile. However block count must be less than 8 and GroundBlocks
+     * can't be placed at an index of greater than or equal to 3.
+     * @param startingBlocks
+     * @throws TooHighException
+     */
     public Tile(List<Block> startingBlocks) throws TooHighException {
         int blockCount = startingBlocks.size();
         //Check the starting blocks are not >8 and all are
@@ -96,6 +115,12 @@ public class Tile implements Serializable {
         }
     }
 
+    /**
+     * Add a new exit Key and Value pair to the exits map of the current tile
+     * @param name
+     * @param target
+     * @throws NoExitException
+     */
     public void addExit(String name, Tile target) throws NoExitException {
         //Check the input is actually a
         if (target == null || name == null) {
@@ -107,6 +132,12 @@ public class Tile implements Serializable {
         }
     }
 
+    /**
+     * Remove an exit with the key given by "name" from the current tile's
+     * exits map.
+     * @param name
+     * @throws NoExitException
+     */
     public void removeExit(String name) throws NoExitException {
         if (!this.exits.containsKey(name) || name == null) {
             //Not valid
@@ -209,8 +240,6 @@ public class Tile implements Serializable {
         } else {
             this.blocks.add(block);
         }
-
-
 
     }
 
